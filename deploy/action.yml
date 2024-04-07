@@ -14,7 +14,7 @@ runs:
   using: 'composite'
   steps:
     - name: Build
-      uses: simon-norman/actions/build-cached@v1
+      uses: simon-norman/actions/build-cached@main
       with:
         file: ${{ inputs.file }}
         tags: ${{ inputs.tag }}
