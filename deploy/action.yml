@@ -16,8 +16,8 @@ runs:
     - name: Build
       uses: simon-norman/actions/build-cached@v1
       with:
-        file: {{ inputs.file }}
-        tags: {{ inputs.tag }}
+        file: ${{ inputs.file }}
+        tags: ${{ inputs.tag }}
         target: release
     - name: Install Doppler CLI
       uses: dopplerhq/cli-action@v3
