@@ -1,0 +1,31 @@
+name: Build cached image
+description: Builds a docker image and caches the output - settings default to an install-type build for monorepo
+inputs:
+  context:
+    description: 'Path to Docker build context from the repo root'
+    required: false
+    default: monorepo
+  file:
+    description: 'Path to Docker file (incl file name) from the repository root'
+    required: false
+    default: ./monorepo/Dockerfile.install
+  tag:
+    description: 'Docker tag (e.g. service:latest)'
+    required: false
+    default: install
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup docker buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build Docker install image
+      uses: docker/build-push-action@v5
+      with:
+        context: ${{ inputs.context }}
+        file: ${{ inputs.file }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        push: false
+        tags:  ${{ inputs.tag }}

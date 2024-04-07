@@ -1,0 +1,25 @@
+name: Deploy with doppler and pulumi
+description: Builds a docker image and deploys it
+inputs:
+  environment:
+    description: 'Environment that the deployment is in'
+    required: true
+  file:
+    description: 'Path to dockerfile to build'
+    required: true
+  tag:
+    description: 'Docker image tag'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Build
+      uses: simon-norman/actions/build-cached@v1
+      with:
+        file: {{ inputs.file }}
+        tags: {{ inputs.tag }}
+        target: release
+    - name: Install Doppler CLI
+      uses: dopplerhq/cli-action@v3
+    - name: Deploy
+      run: cd infrastructure && doppler run -p ci-cd -c ${{ inputs.environment }} -- pulumi up -s ${{ inputs.environment }}
