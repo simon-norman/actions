@@ -22,4 +22,5 @@ runs:
     - name: Install Doppler CLI
       uses: dopplerhq/cli-action@v3
     - name: Deploy
+      shell: bash
       run: cd infrastructure && doppler run -p ci-cd -c ${{ inputs.environment }} -- pulumi up -s ${{ inputs.environment }}
