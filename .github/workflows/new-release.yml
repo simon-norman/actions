@@ -2,10 +2,6 @@ name: Keep the versions up-to-date
 
 on:
   release:
-    types:
-      - released
-      - published
-      - edited
 
 jobs:
   actions-tagger:
