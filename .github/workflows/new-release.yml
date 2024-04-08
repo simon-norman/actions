@@ -5,8 +5,10 @@ on:
     types:
       - released
       - edited
+      - published
   push: 
     tags:
+      - 'v?[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   actions-tagger:
