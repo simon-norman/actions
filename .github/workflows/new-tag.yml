@@ -13,4 +13,4 @@ jobs:
       - name: Create new tag and release
         uses: ./release
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
