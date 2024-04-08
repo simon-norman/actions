@@ -1,11 +1,6 @@
 name: Keep the versions up-to-date
 
 on:
-  release: # (1)
-    types:
-      - released
-      - edited
-      - published
   push: 
     tags:
       - 'v?[0-9]+.[0-9]+.[0-9]+'
