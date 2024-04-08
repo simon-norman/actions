@@ -1,0 +1,16 @@
+name: Check branch permitted
+description: Fails workflow if not run from the specified branch
+inputs:
+  allowed_branch:
+    description: 'Branch that workflow is permitted from'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Check if valid branch
+      shell: bash
+      run: |
+        if [[ "${{ github.ref }}" != "refs/heads/${{ inputs.allow_branch }}" ]]; then
+          echo "This workflow is restricted to the ${{ inputs.allow_branch }} branch."
+          exit 1
+        fi
