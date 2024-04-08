@@ -10,6 +10,12 @@ inputs:
   tag:
     description: 'Docker image tag'
     required: true
+  app_name:
+    description: 'App to be deployed'
+    required: true
+  aws_region:
+    description: 'AWS region'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -19,8 +25,17 @@ runs:
         file: ${{ inputs.file }}
         tags: ${{ inputs.tag }}
         target: release
-    - name: Install Doppler CLI
-      uses: dopplerhq/cli-action@v3
-    - name: Deploy
-      shell: bash
-      run: cd infrastructure && doppler run -p ci-cd -c ${{ inputs.environment }} -- pulumi up -s ${{ inputs.environment }}
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-region: ${{ inputs.aws_region }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - uses: pulumi/actions@v3
+      with:
+        command: up
+        stack-name: ${{ inputs.environment }}
+        work-dir: infrastructure/${{app_name}}
+        refresh: true
+      env:
+        PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
