@@ -1,5 +1,5 @@
 name: Deploy with doppler and pulumi
-description: Builds a docker image and deploys it
+description: Builds a docker image and deploys
 inputs:
   environment:
     description: 'Environment that the deployment is in'
