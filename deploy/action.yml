@@ -26,7 +26,7 @@ runs:
   using: 'composite'
   steps:
     - name: Build
-      uses: simon-norman/actions/build-cached@main
+      uses: simon-norman/actions/build-cached@v1
       with:
         file: ${{ inputs.file }}
         tags: ${{ inputs.tag }}
@@ -43,3 +43,4 @@ runs:
         stack-name: ${{ inputs.environment }}
         work-dir: infrastructure/${{ inputs.app_name }}
         refresh: true
+        upsert: true
