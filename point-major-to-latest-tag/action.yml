@@ -1,0 +1,29 @@
+name: Point major
+description: Points the major tag (e.g. v1) to the latest tag pushed
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Git
+      shell: bash
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+    - name: Update Major Version Tag
+      shell: bash
+      run: |
+        TAG_NAME=${GITHUB_REF#refs/tags/}
+        IFS='.' read -ra VERSION <<< "$TAG_NAME"
+        MAJOR=${VERSION[0]}
+        MAJOR_TAG="${MAJOR}"
+        LATEST_TAG=$(git tag -l "${MAJOR}.*.*" | sort -V | tail -n1)
+
+        if [ "$TAG_NAME" = "$LATEST_TAG" ]; then
+          echo "This is the latest patch for $MAJOR."
+          git tag -f "$MAJOR_TAG" "$TAG_NAME"
+          git push origin "$MAJOR_TAG" --force
+        else
+          echo "This is not the latest patch for $MAJOR. No action needed."
+        fi
