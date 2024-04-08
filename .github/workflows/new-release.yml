@@ -5,7 +5,8 @@ on:
     types:
       - released
       - edited
-  push: tags
+  push: 
+    tags:
 
 jobs:
   actions-tagger:
