@@ -26,11 +26,16 @@ runs:
   using: 'composite'
   steps:
     - name: Build
-      uses: simon-norman/actions/build-cached@v1
+      uses: ./build-cached
       with:
         file: ${{ inputs.file }}
         tags: ${{ inputs.tag }}
         target: release
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v1
+    - name: Install Pulumi and infra tools
+      shell: bash
+      run: cd infrastructure && bun install
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
