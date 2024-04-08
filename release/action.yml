@@ -15,7 +15,7 @@ runs:
         github_token: ${{ inputs.github_token }}
         prerelease: false
         draft: false
-        custom_tag: v1.0.1
+        custom_tag: 1.0.1
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
       with:
