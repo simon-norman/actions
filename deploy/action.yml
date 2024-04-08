@@ -41,5 +41,5 @@ runs:
       with:
         command: up
         stack-name: ${{ inputs.environment }}
-        work-dir: infrastructure/${{app_name}}
+        work-dir: infrastructure/${{ inputs.app_name }}
         refresh: true
