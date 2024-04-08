@@ -15,10 +15,10 @@ runs:
         github_token: ${{ inputs.github_token }}
         prerelease: false
         draft: false
+        custom_tag: v1.0.1
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ steps.tag_version.outputs.new_tag }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
-    - uses: phwt/major-tagging-action@v1
