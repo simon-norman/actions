@@ -1,13 +1,24 @@
-name: Move a major tag to the latest release
+name: Keep the versions up-to-date
+
 on:
-  push:
+  release: # (1)
+    types:
+      - released
+      - edited
+  push: # (1)
     tags:
-      - v** # Trigger on every tag push
+      - 'v?[0-9]+.[0-9]+.[0-9]+'
+    branches-ignore:
+      - '**'
+    paths-ignore:
+      - '**'
 
 jobs:
-  tag:
-    name: Move major tag
-    runs-on: ubuntu-latest
+  actions-tagger:
+    runs-on: windows-latest
+    permissions: # (2)
+      contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: phwt/major-tagging-action@v1
+      - uses: Actions-R-Us/actions-tagger@v2
+        with:
+          publish_latest_tag: true
