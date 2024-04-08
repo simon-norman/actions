@@ -26,5 +26,7 @@ runs:
       run: |
         VERSION=${GITHUB_REF#refs/tags/}
         MAJOR=${VERSION%%.*}
+        # git config --global user.name 'Simon'
+        # git config --global user.email 'simon@users.noreply.github.com'
         git tag -fa ${MAJOR} -m "Update major version tag"
         git push origin ${MAJOR} --force
