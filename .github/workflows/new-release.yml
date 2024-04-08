@@ -9,7 +9,7 @@ on:
 
 jobs:
   actions-tagger:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions: # (2)
       contents: write
     steps:
