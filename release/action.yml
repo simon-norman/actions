@@ -21,4 +21,4 @@ runs:
         tag: ${{ steps.tag_version.outputs.new_tag }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
-     - uses: phwt/major-tagging-action@v1
+    - uses: phwt/major-tagging-action@v1
