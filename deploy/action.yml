@@ -43,5 +43,3 @@ runs:
         stack-name: ${{ inputs.environment }}
         work-dir: infrastructure/${{app_name}}
         refresh: true
-      env:
-        PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
