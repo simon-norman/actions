@@ -1,14 +1,34 @@
 name: Keep the versions up-to-date
 
 on:
-  release:
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
-  actions-tagger:
+  update-major-tag:
     runs-on: ubuntu-latest
-    permissions: # (2)
-      contents: write
     steps:
-      - uses: Actions-R-Us/actions-tagger@v2
-        with:
-          publish_latest_tag: true
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Update Major Version Tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          IFS='.' read -ra VERSION <<< "$TAG_NAME"
+          MAJOR=${VERSION[0]}
+          MAJOR_TAG="${MAJOR}"
+          LATEST_TAG=$(git tag -l "${MAJOR}.*.*" | sort -V | tail -n1)
+
+          if [ "$TAG_NAME" = "$LATEST_TAG" ]; then
+            echo "This is the latest patch for $MAJOR."
+            git tag -f "$MAJOR_TAG" "$TAG_NAME"
+            git push origin "$MAJOR_TAG" --force
+          else
+            echo "This is not the latest patch for $MAJOR. No action needed."
+          fi
