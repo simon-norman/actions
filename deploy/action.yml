@@ -22,6 +22,9 @@ inputs:
   aws_access_key:
     description: 'AWS access key'
     required: true
+  build_target:
+    description: 'Docker build target'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -30,7 +33,7 @@ runs:
       with:
         file: ${{ inputs.file }}
         tags: ${{ inputs.tag }}
-        target: release
+        target: ${{ inputs.build_target }}
     - name: Install Bun
       uses: oven-sh/setup-bun@v1
     - name: Install Pulumi and infra tools
