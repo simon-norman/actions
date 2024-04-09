@@ -32,7 +32,7 @@ runs:
       uses: simon-norman/actions/build-cached@v1
       with:
         file: ${{ inputs.file }}
-        tags: ${{ inputs.tag }}
+        tag: ${{ inputs.tag }}
         target: ${{ inputs.build_target }}
     - name: Install Bun
       uses: oven-sh/setup-bun@v1
