@@ -8,7 +8,7 @@ inputs:
   file:
     description: 'Path to Docker file (incl file name) from the repository root'
     required: false
-    default: ./monorepo/Dockerfile.install
+    default: ./monorepo/Dockerfile
   tag:
     description: 'Docker tag (e.g. service:latest)'
     required: false
