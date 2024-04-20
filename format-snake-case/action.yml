@@ -5,7 +5,7 @@ inputs:
     description: 'Text to convert to snake case'
     required: true
 outputs:
-  formattedValue:
+  formatted_value:
     description: 'The converted string.'
     value: $${{ steps.underscore_service.outputs.converted_value }}
 runs:
