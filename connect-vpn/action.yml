@@ -1,0 +1,40 @@
+name: Run with VPN
+description: Installs OpenVPN and starts a connection using the provided VPN config
+inputs:
+  vpn_config:
+    description: 'VPN config'
+    required: true
+  ip_to_check_connection:
+    description: 'IP address to check vpn connection'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+     - name: Install OpenVPN
+       shell: bash
+       run: |
+          sudo apt update
+          sudo apt install -y openvpn
+     - name: Extract VPN config
+       shell: bash
+       run: |
+          echo {{ inputs.vpn_config }} > ./encodedvpn.txt
+          base64 --decode -i ./encodedvpn.txt > ./vpn.ovpn
+     - name: Connect VPN
+       shell: bash
+       run: sudo openvpn --config ./vpn.ovpn --daemon --log openvpn.log --writepid openvpn.pid
+     - name: Check VPN connection  
+       shell: bash
+       run: |
+        hostname={{ inputs.ip_to_check_connection }}
+        success=0
+        while [ $success -eq 0 ]; do
+            # Using ping with a count of 1 to test VPN connection
+            if ping -c 1 "$hostname" > /dev/null 2>&1; then
+                echo "Ping succeeded ${hostname}"
+                success=1  # Exit the loop on success
+            else
+                echo "Ping failed connecting to ${hostname}, retrying in 5 seconds..."
+                sleep 5
+            fi
+        done

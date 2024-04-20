@@ -1,0 +1,25 @@
+name: Run with VPN
+description: Installs OpenVPN and starts a connection using the provided VPN config
+inputs:
+  text:
+    description: 'Text to convert to snake case'
+    required: true
+outputs:
+  formattedValue:
+    description: 'The converted string.'
+    value: $${{ steps.underscore_service.outputs.converted_value }}
+runs:
+  using: 'composite'
+  steps:
+     - name: Convert hyphens to underscores
+       shell: bash
+       id: underscore_service      
+       run: |
+          # Use shell parameter expansion or tools like sed to replace hyphens with underscores
+          converted_value="${{ inputs.text }}"
+
+          converted_value="${converted_value//-/_}" # Replaces all hyphens with underscores
+          
+          # Set the converted value as an output of this step
+          echo "converted_value=$converted_value" >> $GITHUB_ENV
+          echo "::set-output name=converted_value::$converted_value"
