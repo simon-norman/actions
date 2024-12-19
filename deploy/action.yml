@@ -34,11 +34,11 @@ runs:
         file: ${{ inputs.file }}
         tag: ${{ inputs.tag }}
         target: ${{ inputs.build_target }}
-    - name: Install Bun
-      uses: oven-sh/setup-bun@v1
+    - name: Install PNPM
+      uses: pnpm/action-setup@v4
     - name: Install Pulumi and infra tools
       shell: bash
-      run: cd infrastructure && bun install
+      run: cd infrastructure && pnpm install
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:

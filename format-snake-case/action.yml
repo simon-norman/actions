@@ -1,5 +1,5 @@
-name: Run with VPN
-description: Installs OpenVPN and starts a connection using the provided VPN config
+name: Format snake case
+description: Converts hyphens to underscores
 inputs:
   text:
     description: 'Text to convert to snake case'
